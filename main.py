@@ -16,7 +16,9 @@ def player_1_turn():
     print("Player 1 it's your turn!")
     player_1 = input("Enter Coordinates for your move: ")
     # translate players turn into list items, to change board
+    # transform string input in number and subtract 1 to transform to list index
     index_1 = int(player_1[1]) - 1
+    # determine selected row and change list item to player sign
     if player_1[0] == "A" and row_a[index_1] == "⬜️":
         row_a[index_1] = "❌"
     elif player_1[0] == "B" and row_b[index_1] == "⬜️":
@@ -44,6 +46,29 @@ def player_2_turn():
         player_2_turn()
 
 
+def is_winning():
+    # all possible winning combinations in dictionary for easier looping
+    winning = {
+        "row_1": row_a,
+        "row_2": row_b,
+        "row_3": row_c,
+        "col_1": [row_a[0], row_b[0], row_c[0]],
+        "col_2": [row_a[1], row_b[1], row_c[1]],
+        "col_3": [row_a[2], row_b[2], row_c[2]],
+        "diagonal_1": [row_a[0], row_b[1], row_c[2]],
+        "diagonal_2": [row_a[2], row_b[1], row_c[0]]
+    }
+    # loop through all possible combinations in dictionary
+    #  check if one player has a combination (if all items in list are equal to players sign)
+    for combination in winning:
+        if all(fields == "❌" for fields in winning[combination]):
+            print("Player 1 wins the game.")
+            return True
+        elif all(fields == "⭕" for fields in winning[combination]):
+            print("Player 2 wins the game.")
+            return True
+
+
 print("Hello, welcome to Tic Tac Toe.")
 print("A1 A2 A3\n"
       "B1 B2 B3\n"
@@ -54,7 +79,12 @@ game_is_on = True
 while game_is_on:
     player_1_turn()
     update_board()
+    if is_winning():
+        game_is_on = False
+        break
     player_2_turn()
     update_board()
+    if is_winning():
+        game_is_on = False
 
 
