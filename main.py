@@ -3,6 +3,7 @@ row_a = ["⬜️", "⬜️", "⬜️"]
 row_b = ["⬜️", "⬜️", "⬜️"]
 row_c = ["⬜️", "⬜️", "⬜️"]
 
+
 # print board as string for aesthetic reasons
 def update_board():
     board = f"  1 2 3\n" \
@@ -10,6 +11,8 @@ def update_board():
             f"B{row_b[0]}{row_b[1]}{row_b[2]}\n" \
             f"C{row_c[0]}{row_c[1]}{row_c[2]}"
     print(board)
+    return board
+
 
 # Create turns for players
 def player_1_turn():
@@ -59,7 +62,7 @@ def is_winning():
         "diagonal_2": [row_a[2], row_b[1], row_c[0]]
     }
     # loop through all possible combinations in dictionary
-    #  check if one player has a combination (if all items in list are equal to players sign)
+    #  check if one player has a combination (if all items in list are equal to players mark)
     for combination in winning:
         if all(fields == "❌" for fields in winning[combination]):
             print("Player 1 wins the game.")
@@ -69,22 +72,38 @@ def is_winning():
             return True
 
 
+# check if game is done, because no more moves possible/board full
+def board_full():
+    if all(fields != "⬜️" for fields in row_a) and \
+            all(fields != "⬜️" for fields in row_b) and \
+            all(fields != "⬜️" for fields in row_c):
+        print("No more moves possible. It's a draw!")
+        return True
+
+
 print("Hello, welcome to Tic Tac Toe.")
 print("A1 A2 A3\n"
       "B1 B2 B3\n"
       "C1 C2 C3\n")
 print("To choose a field, simply enter the coordinates as shown on the example board above.")
-game_is_on = True
 
+game_is_on = True
+# keep game going until either someone is winning or the board is full
 while game_is_on:
     player_1_turn()
-    update_board()
+    current_board = update_board()
     if is_winning():
         game_is_on = False
         break
+    elif board_full():
+        game_is_on = False
+        break
     player_2_turn()
-    update_board()
+    current_board = update_board()
     if is_winning():
         game_is_on = False
+    elif board_full():
+        game_is_on = False
+
 
 
