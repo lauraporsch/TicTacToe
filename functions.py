@@ -1,5 +1,4 @@
 import random
-import time
 
 
 def update_board(row_a, row_b, row_c):
@@ -21,7 +20,7 @@ def player_1_turn(row_a, row_b, row_c):
     try:
         index_1 = int(player_1[1]) - 1
     # catch if no number was entered or sign instead
-    except ValueError:
+    except (ValueError, IndexError):
         print("Invalid choice. The field is either taken or doesn't exist. Please try again.")
         player_1_turn(row_a, row_b, row_c)
     else:
@@ -43,7 +42,7 @@ def player_2_turn(row_a, row_b, row_c):
     player_2 = input("Enter Coordinates for your move: ")
     try:
         index_2 = int(player_2[1]) - 1
-    except ValueError:
+    except (ValueError, IndexError):
         print("Invalid choice. The field is either taken or doesn't exist. Please try again.")
         player_2_turn(row_a, row_b, row_c)
     else:
@@ -61,6 +60,8 @@ def player_2_turn(row_a, row_b, row_c):
 def is_winning(row_a, row_b, row_c, game_mode):
     """ checks if any possible winning combination is present, ends the game if this is true"""
     # all possible winning combinations in dictionary for easier looping
+    # loop through all possible combinations in dictionary
+    #  check if one player has a combination (if all items in list are equal to players mark)
     winning = {
         "row_1": row_a,
         "row_2": row_b,
@@ -71,8 +72,6 @@ def is_winning(row_a, row_b, row_c, game_mode):
         "diagonal_1": [row_a[0], row_b[1], row_c[2]],
         "diagonal_2": [row_a[2], row_b[1], row_c[0]]
     }
-    # loop through all possible combinations in dictionary
-    #  check if one player has a combination (if all items in list are equal to players mark)
     for combination in winning:
         if all(fields == "❌" for fields in winning[combination]):
             print("🎉Player 1️⃣ wins the game.🎉")
@@ -112,12 +111,54 @@ def computer_random_choice(row_a, row_b, row_c):
 def computer_turn(row_a, row_b, row_c):
     """lets the computer play, either choose random move, is player is not about to win or hinders player to win"""
     print("The 🖥️ is playing.")
-    diagonals = {
-        "diagonal_1": [row_a[0], row_b[1], row_c[2]],
-        "diagonal_2": [row_a[2], row_b[1], row_c[0]]
-    }
-    # checks if Player is about to win by checking if there is a combination that is only missing one cross
-    if row_a.count("⬜️") == 1 and row_a.count("❌") == 2:
+    # first checks if there is a possibility for the computer to win, if yes, will play accordingly
+    if row_a.count("⬜️") == 1 and row_a.count("⭕") == 2:
+        for i in range(len(row_a)):
+            if row_a[i] == "⬜️":
+                row_a[i] = "⭕"
+                print("row_a")
+    elif row_b.count("⬜️") == 1 and row_b.count("⭕") == 2:
+        for i in range(len(row_b)):
+            if row_b[i] == "⬜️":
+                row_b[i] = "⭕"
+                print("row_b")
+    elif row_c.count("⬜️") == 1 and row_c.count("⭕") == 2:
+        for i in range(len(row_c)):
+            if row_c[i] == "⬜️":
+                row_c[i] = "⭕"
+                print("row_c")
+    elif row_a[0] == "⬜️" and row_b[0] == "⭕" and row_c[0] == "⭕":
+        row_a[0] = "⭕"
+    elif row_b[0] == "⬜️" and row_a[0] == "⭕" and row_c[0] == "⭕":
+        row_b[0] = "⭕"
+    elif row_c[0] == "⬜️" and row_b[0] == "⭕" and row_a[0] == "⭕":
+        row_c[0] = "⭕"
+    elif row_a[1] == "⬜️" and row_b[1] == "⭕" and row_c[1] == "⭕":
+        row_a[1] = "⭕"
+    elif row_b[1] == "⬜️" and row_a[1] == "⭕" and row_c[1] == "⭕":
+        row_b[1] = "⭕"
+    elif row_c[1] == "⬜️" and row_b[1] == "⭕" and row_a[1] == "⭕":
+        row_c[1] = "⭕"
+    elif row_a[2] == "⬜️" and row_b[2] == "⭕" and row_c[2] == "⭕":
+        row_a[2] = "⭕"
+    elif row_b[2] == "⬜️" and row_a[2] == "⭕" and row_c[2] == "⭕":
+        row_b[2] = "⭕"
+    elif row_c[2] == "⬜️" and row_b[2] == "⭕" and row_a[2] == "⭕":
+        row_c[2] = "⭕"
+    elif row_a[0] == "⬜️" and row_b[1] == "⭕" and row_c[2] == "⭕":
+        row_a[0] = "⭕"
+    elif row_b[1] == "⬜️" and row_a[0] == "⭕" and row_c[2] == "⭕":
+        row_b[1] = "⭕"
+    elif row_c[2] == "⬜️" and row_a[0] == "⭕" and row_b[1] == "⭕":
+        row_c[2] = "⭕"
+    elif row_a[2] == "⬜️" and row_b[1] == "⭕" and row_c[0] == "⭕":
+        row_a[2] = "⭕"
+    elif row_b[1] == "⬜️" and row_a[2] == "⭕" and row_c[0] == "⭕":
+        row_b[1] = "⭕"
+    elif row_c[0] == "⬜️" and row_a[2] == "⭕" and row_b[1] == "⭕":
+        row_c[0] = "⭕"
+    # then checks if there is a possibility for the Player to win, if yes, will block accordingly
+    elif row_a.count("⬜️") == 1 and row_a.count("❌") == 2:
         for i in range(len(row_a)):
             if row_a[i] == "⬜️":
                 row_a[i] = "⭕"
@@ -162,5 +203,6 @@ def computer_turn(row_a, row_b, row_c):
         row_b[1] = "⭕"
     elif row_c[0] == "⬜️" and row_a[2] == "❌" and row_b[1] == "❌":
         row_c[0] = "⭕"
+    # if no chances of either winning, chooses random move
     else:
         computer_random_choice(row_a, row_b, row_c)

@@ -7,6 +7,7 @@ def play_game():
     row_a = ["⬜️", "⬜️", "⬜️"]
     row_b = ["⬜️", "⬜️", "⬜️"]
     row_c = ["⬜️", "⬜️", "⬜️"]
+
     game_is_on = True
     # keep game going until either someone is winning or the board is full
     while game_is_on:
