@@ -7,7 +7,6 @@ def play_game():
     row_a = ["⬜️", "⬜️", "⬜️"]
     row_b = ["⬜️", "⬜️", "⬜️"]
     row_c = ["⬜️", "⬜️", "⬜️"]
-
     game_is_on = True
     # keep game going until either someone is winning or the board is full
     while game_is_on:
@@ -16,6 +15,7 @@ def play_game():
         if is_winning(row_a, row_b, row_c, game_mode):
             game_is_on = False
             break
+        # only checks if board is full for Player 1 as it cannot be full on computer turn or Player 2 turn
         elif board_full(row_a, row_b, row_c):
             game_is_on = False
             break
@@ -25,8 +25,6 @@ def play_game():
             computer_turn(row_a, row_b, row_c)
         update_board(row_a, row_b, row_c)
         if is_winning(row_a, row_b, row_c, game_mode):
-            game_is_on = False
-        elif board_full(row_a, row_b, row_c):
             game_is_on = False
     go_again = input("Would you like to play again? Type yes or no  ").lower()
     if go_again == "yes":
