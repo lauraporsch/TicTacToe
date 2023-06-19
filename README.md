@@ -18,6 +18,7 @@ Computer detecting Player has a chance to win and to hinders the player
 ![image](https://github.com/lauraporsch/TicTacToe/assets/127047376/9eb2f138-edff-4dfd-9f41-e4db55a1285c)
 
 Computer detecting chance to win and plays accordingly
+
 ![image](https://github.com/lauraporsch/TicTacToe/assets/127047376/51add170-5da0-4ed2-b594-5cca6ca7a7f2)
 
 
